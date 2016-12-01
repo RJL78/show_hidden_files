@@ -87,7 +87,7 @@ define(function (require, exports, module) {
                 var fswin = require("fswin"); 
                 // should return JSON object ? We're looking for the IS_HIDDEN attribute
                 fswin.getAttributesSync(path+name);
-                return ???? ; 
+                return false; 
 
             case 'Linux':
             case 'Mac OS X': 
