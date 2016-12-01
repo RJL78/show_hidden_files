@@ -1,11 +1,10 @@
-/*jslint vars: true, plusplus: true, devel: true, nomen: true, regexp: true, indent: 4, maxerr: 50 */
-/*global define, $, brackets, window */
 
-/** Simple extension that adds a "File > Hello World" menu item */
+
 define(function (require, exports, module) {
     "use strict";
 
     var CommandManager  = brackets.getModule("command/CommandManager"),
+        ProjectManager  = brackets.getModule("project/ProjectManager"),
         Menus           = brackets.getModule("command/Menus"),
         Prefs           = brackets.getModule("preferences/PreferencesManager").getExtensionPrefs("show_hidden"),
         MY_COMMAND_ID   = "show_hidden.toggle";
@@ -43,7 +42,6 @@ define(function (require, exports, module) {
                 return false; 
             }
             else {
-                window.alert(name + Prefs.get("showing_hidden_files"));
                 return true;
             }   
         }
@@ -58,13 +56,14 @@ define(function (require, exports, module) {
        if (Prefs.get("showing_hidden_files")){
             Prefs.set("showing_hidden_files",false); 
             CommandManager.get(MY_COMMAND_ID).setChecked(0);
+            window.alert("SET TO FALSE")
         }
         else {
             Prefs.set("showing_hidden_files",true); 
             CommandManager.get(MY_COMMAND_ID).setChecked(1);
-
         }
         Prefs.save();
+        ProjectManager.refreshFileTree();
     }
 
     function is_hidden_file(path,name) 
