@@ -35,16 +35,7 @@ define(function (require, exports, module) {
         FileSystem._FileSystem.prototype._indexFilter = function (path, name) {
             // Call old filter
             var result = Original_Filter.apply(this, arguments);
-
-            if (!result) {
-                return false;
-            }
-            else if (!Prefs.get("showing_hidden_files") && is_hidden_file(path,name) ){
-                return false; 
-            }
-            else {
-                return true;
-            }   
+            return result && (Prefs.get("showing_hidden_files") || !is_hidden_file(path,name));
         }
 
     }
