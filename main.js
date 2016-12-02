@@ -7,7 +7,7 @@ define(function (require, exports, module) {
         ProjectManager  = brackets.getModule("project/ProjectManager"),
         Menus           = brackets.getModule("command/Menus"),
         Prefs           = brackets.getModule("preferences/PreferencesManager").getExtensionPrefs("show_hidden"),
-        MY_COMMAND_ID   = "show_hidden.toggle";
+        MY_COMMAND_ID   = "show_hidden.toggle",
         OS              = getOS();
 
 
@@ -45,7 +45,7 @@ define(function (require, exports, module) {
 
     function toggle(){ 
 
-        if (OS.equals("unknown")){
+        if (OS === "unknown"){
             window.alert("Operating System Unrecognized"); 
             return;
         }
@@ -75,10 +75,10 @@ define(function (require, exports, module) {
             case 'Windows Vista':
             case 'Windows XP': 
             case 'Windows 2000': 
-                var fswin = require("fswin"); 
+                /*var fswin = require("fswin"); 
                 // should return JSON object ? We're looking for the IS_HIDDEN attribute
                 fswin.getAttributesSync(path+name);
-                return false; 
+                return false;*/ 
 
             case 'Linux':
             case 'Mac OS X': 
