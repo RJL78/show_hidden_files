@@ -7,7 +7,7 @@ define(function (require, exports, module) {
         ProjectManager  = brackets.getModule("project/ProjectManager"),
         Menus           = brackets.getModule("command/Menus"),
         Prefs           = brackets.getModule("preferences/PreferencesManager").getExtensionPrefs("show_hidden"),
-        MY_COMMAND_ID   = "show_hidden.toggle";
+        MY_COMMAND_ID   = "show_hidden.toggle",
         OS              = getOS();
 
 
@@ -19,6 +19,13 @@ define(function (require, exports, module) {
 
     function init(){
            // package-style naming to avoid collisions
+
+
+
+
+
+
+
 
         CommandManager.register("Show Hidden Files", MY_COMMAND_ID, toggle);
         CommandManager.get(MY_COMMAND_ID).setChecked(0);
@@ -75,13 +82,12 @@ define(function (require, exports, module) {
             case 'Windows Vista':
             case 'Windows XP': 
             case 'Windows 2000': 
-                var fswin = require("fswin"); 
-                // should return JSON object ? We're looking for the IS_HIDDEN attribute
-                fswin.getAttributesSync(path+name);
+                
                 return false; 
 
             case 'Linux':
             case 'Mac OS X': 
+                a(path,name);
                 return name.match(/^\.[\w]+/);
             default: 
                 return false;
@@ -89,6 +95,24 @@ define(function (require, exports, module) {
      
 
     }
+
+
+    function a(path,name){
+
+
+        var NodeDomain     = brackets.getModule("utils/NodeDomain"),
+            ExtensionUtils = brackets.getModule("utils/ExtensionUtils");
+
+
+        var fswin = new NodeDomain("fswin", ExtensionUtils.getModulePath(module, "node/node_modules/fswin/index.js"));
+       
+
+        /*fswin.exec("getAttributes",path).done( function(attributes) {
+                console.log("function returned correctly");
+            } ).fail( function() {console.log("Unable to read file attributes :"+path);}); */
+    }
+
+
 
     function getOS(){
         var os = "unknown";
