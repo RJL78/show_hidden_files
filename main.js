@@ -9,6 +9,7 @@ define(function (require, exports, module) {
         Prefs           = brackets.getModule("preferences/PreferencesManager").getExtensionPrefs("show_hidden"),
         MY_COMMAND_ID   = "show_hidden.toggle",
         OS              = getOS();
+   
 
 
 
@@ -19,7 +20,6 @@ define(function (require, exports, module) {
 
     function init(){
            // package-style naming to avoid collisions
-
 
 
 
@@ -98,13 +98,12 @@ define(function (require, exports, module) {
 
 
     function a(path,name){
-
-
+       
         var NodeDomain     = brackets.getModule("utils/NodeDomain"),
             ExtensionUtils = brackets.getModule("utils/ExtensionUtils");
+        console.log 
 
-
-        var fswin = new NodeDomain("fswin", ExtensionUtils.getModulePath(module, "node/node_modules/fswin/index.js"));
+        var fswin = new NodeDomain("fswin", ExtensionUtils.getModulePath(module, "node/fswin/index.js"));
        
 
         /*fswin.exec("getAttributes",path).done( function(attributes) {
