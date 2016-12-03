@@ -51,8 +51,8 @@ define(function (require, exports, module) {
 
 
     function toggle(){ 
-
-        if (OS.equals("unknown")){
+        
+        if (OS === "unknown" ){
             window.alert("Operating System Unrecognized"); 
             return;
         }
@@ -82,12 +82,15 @@ define(function (require, exports, module) {
             case 'Windows Vista':
             case 'Windows XP': 
             case 'Windows 2000': 
-                
-                return false; 
-
+                var fswin = require("node/node_modules/fswin/index")
+                var result = fswin.getAttributesSync(path)
+                for(n in result){
+                    console.log(n+': '+result[n]);
+                }
+                return false;
             case 'Linux':
             case 'Mac OS X': 
-                a(path,name);
+                //a(path,name);
                 return name.match(/^\.[\w]+/);
             default: 
                 return false;
@@ -97,8 +100,12 @@ define(function (require, exports, module) {
     }
 
 
-    function a(path,name){
-       
+
+
+   function a(path,name){
+
+
+
         var NodeDomain     = brackets.getModule("utils/NodeDomain"),
             ExtensionUtils = brackets.getModule("utils/ExtensionUtils");
         console.log 
@@ -106,9 +113,9 @@ define(function (require, exports, module) {
         var fswin = new NodeDomain("fswin", ExtensionUtils.getModulePath(module, "node/fswin/index.js"));
        
 
-        /*fswin.exec("getAttributes",path).done( function(attributes) {
+        fswin.exec("getAttributes",path).done( function(attributes) {
                 console.log("function returned correctly");
-            } ).fail( function() {console.log("Unable to read file attributes :"+path);}); */
+            } ).fail( function() {console.log("Unable to read file attributes :"+path);});
     }
 
 
