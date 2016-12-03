@@ -1,0 +1,13 @@
+{
+    "name": "brackets_extensions_313",
+    "title": "Hide Hidden Files",
+    "description": "Adds toolbar with tabs of open documents on the top of the editor. Now with split view support!",
+    "homepage": "https://github.com/RaphaelLaporte/show_hidden_files",
+    "version": "1.0.0",
+    "author": "Marco Peyrot, Lucas Ramirez, Ryan Archer, Raphael Laporte",
+    "license": "MIT",
+    "engines": {
+        "brackets": ">=1.1.0"
+    },
+    "keywords": [ "hidden", "file", "unix"]
+}
