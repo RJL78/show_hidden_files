@@ -1,5 +1,8 @@
-
-
+/*
+ * Main file for the extension. Create and intialize the "Show Hidden Files"
+ * preference in the "View" tab. This feature only works for Mac OSX and Linux-based
+ * systems. On Windows the preference does not show up and the feature is disabled.  
+ */
 define(function (require, exports, module) {
     "use strict";
 
@@ -17,9 +20,15 @@ define(function (require, exports, module) {
         window.alert(getOS());
     }
 
+    /*
+     * Initialize the preference "Show Hidden Files" in the "View" tab
+     * (only for Mac OSX and Linux-based systems)
+     */
     function init(){
 
+        // If the user's OS is Windows, do not create the preference
         if (OS === "Linux" || OS === "Mac OS X") {
+            
             CommandManager.register("Show Hidden Files", MY_COMMAND_ID, toggle);
             CommandManager.get(MY_COMMAND_ID).setChecked(0);
 
@@ -33,13 +42,17 @@ define(function (require, exports, module) {
             var Original_Filter = FileSystem._FileSystem.prototype._indexFilter;
 
             FileSystem._FileSystem.prototype._indexFilter = function (path, name) {
-                // Call old filter
+                // Call old filter first
                 var result = Original_Filter.apply(this, arguments);
                 return result && (Prefs.get("showing_hidden_files") || !name.match(/^\.[\w]+/));
             }
         }
     }
 
+    /*
+     * Called each time the "Show Hidden Files" preference is clicked. 
+     * Change its state to the opposite of the current state.
+     */ 
     function toggle(){ 
 
         if (OS === "unknown"){
@@ -62,6 +75,9 @@ define(function (require, exports, module) {
         return;
     }
      
+    /*
+     * Return the OS the user is running
+     */
     function getOS(){
         var os = "unknown";
         var os_list = [
