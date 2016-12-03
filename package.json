@@ -3,7 +3,7 @@
     "title": "Hide Hidden Files",
     "description": "Hides Hidden Files on Unix-Based Systems - Adds a button in the View dropdown menu",
     "homepage": "https://github.com/RaphaelLaporte/show_hidden_files",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "author": "Marco Peyrot, Lucas Ramirez, Ryan Archer, Raphael Laporte",
     "license": "MIT",
     "engines": {
