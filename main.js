@@ -18,30 +18,27 @@ define(function (require, exports, module) {
     }
 
     function init(){
-           // package-style naming to avoid collisions
 
-        CommandManager.register("Show Hidden Files", MY_COMMAND_ID, toggle);
-        CommandManager.get(MY_COMMAND_ID).setChecked(0);
+        if (OS === "Linux" || OS === "Mac OS X") {
+            CommandManager.register("Show Hidden Files", MY_COMMAND_ID, toggle);
+            CommandManager.get(MY_COMMAND_ID).setChecked(0);
 
-        var menu = Menus.getMenu(Menus.AppMenuBar.VIEW_MENU);
-        menu.addMenuItem(MY_COMMAND_ID);
+            var menu = Menus.getMenu(Menus.AppMenuBar.VIEW_MENU);
+            menu.addMenuItem(MY_COMMAND_ID);
 
-        Prefs.definePreference("showing_hidden_files", "boolean", false);
-        Prefs.save();
+            Prefs.definePreference("showing_hidden_files", "boolean", false);
+            Prefs.save();
 
-        var FileSystem  = brackets.getModule("filesystem/FileSystem");
-        var Original_Filter = FileSystem._FileSystem.prototype._indexFilter;
+            var FileSystem  = brackets.getModule("filesystem/FileSystem");
+            var Original_Filter = FileSystem._FileSystem.prototype._indexFilter;
 
-        FileSystem._FileSystem.prototype._indexFilter = function (path, name) {
-            // Call old filter
-            var result = Original_Filter.apply(this, arguments);
-            return result && (Prefs.get("showing_hidden_files") || !is_hidden_file(path,name));
+            FileSystem._FileSystem.prototype._indexFilter = function (path, name) {
+                // Call old filter
+                var result = Original_Filter.apply(this, arguments);
+                return result && (Prefs.get("showing_hidden_files") || !name.match(/^\.[\w]+/));
+            }
         }
-
     }
-
-
-
 
     function toggle(){ 
 
@@ -64,32 +61,7 @@ define(function (require, exports, module) {
         ProjectManager.refreshFileTree();
         return;
     }
-
-    function is_hidden_file(path,name) 
-    {
-        switch (OS) {
-            case 'Windows': 
-            case 'Windows 8.1':
-            case 'Windows 8':
-            case 'Windows 7': 
-            case 'Windows Vista':
-            case 'Windows XP': 
-            case 'Windows 2000': 
-                /*var fswin = require("fswin"); 
-                // should return JSON object ? We're looking for the IS_HIDDEN attribute
-                fswin.getAttributesSync(path+name);
-                return false;*/ 
-
-            case 'Linux':
-            case 'Mac OS X': 
-                return name.match(/^\.[\w]+/);
-            default: 
-                return false;
-        }
      
-
-    }
-
     function getOS(){
         var os = "unknown";
         var os_list = [
@@ -115,16 +87,6 @@ define(function (require, exports, module) {
     return os;
 }
     
-
     init();
 
-    // First, register a command - a UI-less object associating an id to a handler
-
-    // Then create a menu item bound to the command
-    // The label of the menu item is the name we gave the command (see above)
-
-
-    // We could also add a key binding at the same time:
-    //menu.addMenuItem(MY_COMMAND_ID, "Ctrl-Alt-W");
-    // (Note: "Ctrl" is automatically mapped to "Cmd" on Mac)
 });
